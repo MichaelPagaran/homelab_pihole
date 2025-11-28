@@ -4,10 +4,6 @@
 # This script stops and disables systemd-resolved to free up TCP/UDP port 53,
 # which is required for running a local DNS server like Pi-hole.
 
-# FIX: Remove Windows/DOS line endings that cause "$'\r': command not found" errors
-# This ensures the script runs correctly even if it was copied from a Windows environment.
-sed -i 's/\r$//' "$0"
-
 echo "Stopping and disabling systemd-resolved service to free up port 53..."
 
 # 1. Stop and Disable the service immediately
