@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    hostname: pihole 
+    ports:
+      # DNS (Required)
+      - "53:53/tcp"
+      - "53:53/udp"
+      # Web Interface (Optional: change 80:80/tcp if port 80 is in use)
+      - "80:80/tcp"
+    environment:
+      # Set your timezone (e.g., 'Asia/Manila')
+      TZ: 'Your/Timezone' 
+      # Set a strong password for the web interface
+      WEBPASSWORD: 'A_Strong_Web_Password_Here' 
+      # The static IP of your homelab VM is critical here
+      SERVERIP: 192.168.1.10 
+    # Store configuration data outside the container for persistence
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    # Recommended restart policy
+    restart: unless-stopped
+    # Required for certain network functions
+    cap_add:
+      - NET_ADMIN
