@@ -99,6 +99,10 @@ The following steps were necessary to ensure end-to-end DNS functionality, parti
 After all configurations are complete and the Pi-hole container is running in host mode, verification should be performed on the **Lubuntu Client VM**.
 
 | **Test** | **Purpose** | **Expected Result** |
+| --- | --- | --- |
 | ping cnn.com | Confirms system-wide internet connectivity and successful Pi-hole resolution. | Successful ping replies. |
+| --- | --- | --- |
 | dig doubleclick.net | Confirms Pi-hole's ad-blocking functionality is active. | Returns 192.168.1.10 or 0.0.0.0 as the resolved IP. |
+| --- | --- | --- |
 | Access Pi-hole Dashboard | Confirms the web interface is accessible via the client. | **<http://192.168.1.10/admin>** loads successfully. |
+| --- | --- | --- |
