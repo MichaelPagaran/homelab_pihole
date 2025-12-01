@@ -5,22 +5,24 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
+    # CRITICAL FIX: Use host network mode to bypass Docker's internal NAT
+    # This ensures the client's DNS query hits the container directly on the host's IP (192.168.1.10).
+    network_mode: host
     hostname: pihole
 
-    # 1. Ports MUST be exposed EXPLICITLY to the static IP 192.168.1.10
-    ports:
-      # Format: <HostIP>:<HostPort>:<ContainerPort>/<Protocol>
-      - "192.168.1.10:53:53/tcp"
-      - "192.168.1.10:53:53/udp"
-      # Web Interface (Dashboard)
-      - "192.168.1.10:80:80/tcp" # Optional: You can often just use "80:80/tcp" for the web interface if preferred
+    # 1. Ports are NOT needed when using host network mode!
+    # The container binds directly to the host's ports (53 and 80).
+    # ports:
+    #   - "192.168.1.10:53:53/tcp"
+    #   - "192.168.1.10:53:53/udp"
+    #   - "192.168.1.10:80:80/tcp" 
       
     # 2. Environment variables are loaded from the .env file
     environment:
       TZ: ${TZ}
       WEBPASSWORD: ${WEBPASSWORD}
-      # SERVERIP is usually not needed when using explicit port binding, but safe to keep
-      SERVERIP: ${SERVERIP}
+      # Set the Pi-hole's IP explicitly to ensure it knows its address for DNS replies
+      SERVERIP: 192.168.1.10
       
     # 3. Volumes for persistent data
     volumes:
