@@ -76,6 +76,7 @@ The following steps were necessary to ensure end-to-end DNS functionality, parti
 
 ### A. Pi-hole Server VM (192.168.1.10)
 
+
 | **Issue** | **Resolution** | **Commands** |
 | **Outbound Internet Access** | Confirmed the Pi-hole server itself could resolve and reach the internet. | ping 8.8.8.8 (Test IP) then ping cnn.com (Test DNS) |
 | **Docker DNS Timeout** | Reconfigured docker-compose.yml to use network_mode: host to prevent the Docker NAT layer from blocking incoming DNS traffic on port 53. | sudo docker-compose down followed by sudo docker-compose up -d |
