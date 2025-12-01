@@ -42,7 +42,7 @@ services:
       - NET_ADMIN  
 ```
 
-### Environment Variables (.env)
+### Environment Variables (`.env`)
 
 These variables are required to run the Pi-hole container:
 
