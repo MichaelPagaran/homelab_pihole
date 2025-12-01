@@ -76,16 +76,21 @@ The following steps were necessary to ensure end-to-end DNS functionality, parti
 
 ### A. Pi-hole Server VM (192.168.1.10)
 
-
 | **Issue** | **Resolution** | **Commands** |
+| --- | --- | --- |
 | **Outbound Internet Access** | Confirmed the Pi-hole server itself could resolve and reach the internet. | ping 8.8.8.8 (Test IP) then ping cnn.com (Test DNS) |
+| --- | --- | --- |
 | **Docker DNS Timeout** | Reconfigured docker-compose.yml to use network_mode: host to prevent the Docker NAT layer from blocking incoming DNS traffic on port 53. | sudo docker-compose down followed by sudo docker-compose up -d |
+| --- | --- | --- |
 | **Host Firewall Block** | Verified the host firewall (UFW) was not interfering with the traffic reaching the Docker host. | sudo ufw status (Ensure Status: inactive) |
+| --- | --- | --- |
 
 ### B. Lubuntu Client VM (DHCP)
 
 | **Issue** | **Resolution** | **Commands** |
+| --- | --- | --- |
 | **Local DNS Stub Resolver** | The client's NetworkManager was using 127.0.0.53 (systemd-resolved) instead of the DHCP-assigned Pi-hole IP (192.168.1.10). This must be disabled for the client to work correctly. | 1\. sudo systemctl disable systemd-resolved 2. sudo systemctl stop systemd-resolved 3. sudo rm /etc/resolv.conf 4. \`echo "nameserver 192.168.1.10" |
+| --- | --- | --- |
 
 ## 5\. System Verification
 
