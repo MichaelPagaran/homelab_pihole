@@ -18,24 +18,28 @@ The Pi-hole Docker container is configured to use the **Host Network Mode** to r
 **Location:** /docker/pihole/docker-compose.yml
 ```yaml
 version: "3"  
-<br/>services:  
-pihole:  
-container_name: pihole  
-image: pihole/pihole:latest  
-\# CRITICAL FIX: Use host network mode to bypass Docker's internal NAT/Firewall  
-network_mode: host  
-hostname: pihole  
-<br/>environment:  
-\# CRITICAL: Set the Pi-hole's IP explicitly for DNS replies  
-SERVERIP: 192.168.1.10  
-TZ: \${TZ}  
-WEBPASSWORD: \${WEBPASSWORD} # Password from .env file  
-<br/>volumes:  
-\- './etc-pihole:/etc/pihole'  
-\- './etc-dnsmasq.d:/etc/dnsmasq.d'  
-<br/>restart: unless-stopped  
-cap_add:  
-\- NET_ADMIN  
+
+services:  
+  pihole:  
+    container_name: pihole  
+    image: pihole/pihole:latest  
+
+    # CRITICAL FIX: Use host network mode to bypass Docker's internal NAT/Firewall  
+    network_mode: host  
+    hostname: pihole
+    environment:  
+      # CRITICAL: Set the Pi-hole's IP explicitly for DNS replies  
+      SERVERIP: 192.168.1.10  
+      TZ: \${TZ}  
+      WEBPASSWORD: \${WEBPASSWORD} # Password from .env file  
+
+    volumes:  
+      - './etc-pihole:/etc/pihole'  
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'  
+
+    restart: unless-stopped  
+    cap_add:  
+      - NET_ADMIN  
 ```
 
 ### Environment Variables (.env)
