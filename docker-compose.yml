@@ -5,20 +5,21 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
-    hostname: pihole 
-    
-    # 1. Ports are exposed to the static IP 192.168.1.10
+    hostname: pihole
+
+    # 1. Ports MUST be exposed EXPLICITLY to the static IP 192.168.1.10
     ports:
-      # DNS (Required)
-      - "53:53/tcp"
-      - "53:53/udp"
-      # Web Interface
-      - "80:80/tcp"
+      # Format: <HostIP>:<HostPort>:<ContainerPort>/<Protocol>
+      - "192.168.1.10:53:53/tcp"
+      - "192.168.1.10:53:53/udp"
+      # Web Interface (Dashboard)
+      - "192.168.1.10:80:80/tcp" # Optional: You can often just use "80:80/tcp" for the web interface if preferred
       
     # 2. Environment variables are loaded from the .env file
     environment:
       TZ: ${TZ}
       WEBPASSWORD: ${WEBPASSWORD}
+      # SERVERIP is usually not needed when using explicit port binding, but safe to keep
       SERVERIP: ${SERVERIP}
       
     # 3. Volumes for persistent data
